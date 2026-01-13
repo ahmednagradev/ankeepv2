@@ -7,6 +7,7 @@ const persistConfig = {
     key: "root",
     storage: localStorage,
     whitelist: ["notes"],
+    
 }
 
 const rootReducer = combineReducers({ "notes": notesReducer });
