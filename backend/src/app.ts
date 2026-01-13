@@ -1,5 +1,6 @@
 import express from "express";
 import notesRoutes from "./routes/notes.routes";
+import { errorHandler } from "./middlewares/error.middleware";
 
 /**
  * const app = express();
@@ -17,5 +18,8 @@ app.use(express.json());
 
 // Mount routes
 app.use("/notes", notesRoutes);
+
+// Using error handler middleware
+app.use(errorHandler);
 
 export default app;
