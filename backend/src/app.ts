@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 
 // Mount routes
-app.use("/notes", notesRoutes);
+app.use("/api/notes", notesRoutes);
 
 // Using error handler middleware
 app.use(errorHandler);

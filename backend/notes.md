@@ -20,3 +20,9 @@ Router method allows route grouping, feature based separation, resuability. app.
 A controller owns business logic and decides what to do with data, how to process request, what response to return. It can grow complex without breaking structure
 
 
+# Wiring → Frontend ↔ Backend
+### Component (dispatch) → Redux thunk (calls) → Service (using axios, talks to) → Backend API
+Core principle: Frontend never talks directly to the database, it talks to an API. API talks to the database.
+
+# Redux Async Thunks → Thunks fetch data, reducers only react to results
+### 

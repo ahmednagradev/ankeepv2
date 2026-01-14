@@ -3,7 +3,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Archive, Check, Edit, Pin, Save, Trash2 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { appDispatch, rootState } from '@/store/store';
+import { fetchNotes } from "@/store/notesSlice";
 import { addNote, editNote, pinNote, archiveNote, deleteNote, activateNote, Note } from '@/store/notesSlice';
+import Loader from '@/components/Loader';
+import ErrorDisplay from '@/components/ErrorDisplay';
 
 const Home = () => {
     const [showForm, setShowForm] = useState(false);
@@ -12,13 +15,17 @@ const Home = () => {
     const [editingId, setEditingId] = useState("");
     const inputRef = useRef<HTMLInputElement | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-    const notesData = useSelector((state: rootState) => state.notes.notes);
+    const { notes, loading, error } = useSelector((state: rootState) => state.notes);
     const dispatch = useDispatch<appDispatch>();
 
-    const activeNotes = notesData.filter(n => n.status === "active");
-    const pinnedNotes = notesData.filter(n => n.status === "pinned");
+    const activeNotes = notes.filter(n => n.status === "active");
+    const pinnedNotes = notes.filter(n => n.status === "pinned");
 
     const activeAndPinnedNotes = [...pinnedNotes, ...activeNotes]
+
+    useEffect(() => {
+        dispatch(fetchNotes());
+    }, [dispatch]);
 
     useEffect(() => {
         inputRef.current?.focus();
@@ -77,6 +84,10 @@ const Home = () => {
 
         resetInput();
     }
+
+    if (loading) return <Loader />
+
+    if (error) return <ErrorDisplay error={error} />
 
     return (
         <div className='flex flex-1 flex-col py-6 md:py-8'>
